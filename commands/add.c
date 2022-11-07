@@ -1,14 +1,40 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <dirent.h>
 #include <limits.h>
 #include "../definitions.h"
 #include "../utils.h"
 
+int check_in_favourites(const char *path)
+{
+    FILE *filePointer;
+    int bufferLength = 255;
+    char buffer[bufferLength]; /* not ISO 90 compatible */
+
+    char *homepath = get_home_path();
+    char *conf_path = malloc(strlen(homepath) + 2);
+    strcpy(conf_path, homepath);
+    strncat(conf_path, "\\", 2);
+    strncat(conf_path, "fed.cfg", 8);
+    filePointer = fopen(conf_path, "r");
+
+    while (fgets(buffer, bufferLength, filePointer))
+    {
+        buffer[strlen(buffer) - 1] = '\0';
+        if (!strcmp(buffer, path))
+            return 1;
+    }
+
+    fclose(filePointer);
+    free(conf_path);
+    return 0;
+}
+
 int cmd_add(int argc, const char **argv)
 {
-    DIR *dir = opendir(argv[0]);
     int append_status;
+    int in_favourites;
 
     if (!argc)
     {
@@ -19,36 +45,40 @@ int cmd_add(int argc, const char **argv)
 
     while (argc)
     {
-        // TODO Check if already added
+        DIR *dir = opendir(argv[0]);
         if (dir)
         {
             if (!strcmp(argv[0], "."))
             {
                 char cwd[PATH_MAX];
                 if (getcwd(cwd, sizeof(cwd)) != NULL)
-                {
                     argv[0] = cwd;
-                }
+            }
+
+            in_favourites = check_in_favourites(argv[0]);
+
+            if (in_favourites)
+            {
+                fprintf(stdout, "%s: %s is already in favourites.\n", CLI_NAME, argv[0]);
+                argv++;
+                argc--;
+                continue;
             }
 
             append_status = append_to_config(argv[0]);
+
             if (append_status)
-            {
                 fprintf(stdout, "%s directory is added to favourites.\n\n", argv[0]);
-            }
             else
-            {
                 fprintf(stderr, "%s: error appending %s directory to favourites\n\n", CLI_NAME, argv[0]);
-            }
         }
         else if (ENOENT == errno)
-        {
             fprintf(stderr, "%s: '%s' is not a real directory.\n\n", CLI_NAME, argv[0]);
-        }
+
+        closedir(dir);
         argv++;
         argc--;
     }
 
-    closedir(dir);
     return 0;
 }

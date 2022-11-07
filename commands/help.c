@@ -10,6 +10,7 @@ int cmd_help(int argc, const char **argv)
     help\t\t\t\t- display help\n\
     version\t\t\t\t- display cli version\n",
             CLI_NAME);
+    // TODO add cd
     return 0;
 }
 
