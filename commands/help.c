@@ -1,22 +1,20 @@
 #include <stdio.h>
+#include "../definitions.h"
 
 int cmd_help(int argc, const char **argv)
 {
+    fprintf(stdout, "\n%s usage:\n\n\
+    add\t\t[. | <directory>] \t- add current or chosen dir to favourites.\n\
+    ls\t\t<range> \t\t- show favoutite fodlers\n\
+    clean\t[all | <folder>] \t- remove folders from favourites\n\
+    help\t\t\t\t- display help\n\
+    version\t\t\t\t- display cli version\n",
+            CLI_NAME);
+    return 0;
+}
 
-    // const char git_usage_string[] =
-    //     N_("git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n"
-    //        "           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n"
-    //        "           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n"
-    //        "           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n"
-    //        "           [--super-prefix=<path>] [--config-env=<name>=<envvar>]\n"
-    //        "           <command> [<args>]");
-
-    // const char git_more_info_string[] =
-    //     N_("'git help -a' and 'git help -g' list available subcommands and some\n"
-    //        "concept guides. See 'git help <command>' or 'git help <concept>'\n"
-    //        "to read about a specific subcommand or concept.\n"
-    //        "See 'git help git' for an overview of the system.");
-
-    printf("HELP");
+int cmd_version(int argc, const char **argv)
+{
+    fprintf(stdout, "%s version %s\n", CLI_NAME, VERSION);
     return 0;
 }

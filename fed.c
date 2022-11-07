@@ -31,7 +31,7 @@ static struct cmd_struct commands[] = {
     {"add", cmd_add},
     {"ls", cmd_ls},
     {"clean", cmd_clean},
-    {"version", cmd_add},
+    {"version", cmd_version},
     {"help", cmd_help},
 };
 
