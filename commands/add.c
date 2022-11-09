@@ -6,17 +6,13 @@
 #include "../definitions.h"
 #include "../utils.h"
 
-int check_in_favourites(const char *path)
+static int check_in_favourites(const char *path)
 {
     FILE *filePointer;
     int bufferLength = 255;
     char buffer[bufferLength]; /* not ISO 90 compatible */
 
-    char *homepath = get_home_path();
-    char *conf_path = malloc(strlen(homepath) + 2);
-    strcpy(conf_path, homepath);
-    strncat(conf_path, "\\", 2);
-    strncat(conf_path, "fed.cfg", 8);
+    char *conf_path = get_cfg_path();
     filePointer = fopen(conf_path, "r");
 
     while (fgets(buffer, bufferLength, filePointer))

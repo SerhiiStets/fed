@@ -6,28 +6,25 @@
 #ifdef WIN32
 #include <io.h>
 #include <windows.h>
-#define HOME_PATH "USERPROFILE"
 #endif
 #ifdef linux
-#define HOME_PATH "HOME"
 #endif
 
-char *get_home_path()
+char *get_cfg_path()
 {
     char *homedir;
     homedir = getenv(HOME_PATH);
-    return homedir;
+    char *conf_path = malloc(strlen(homedir) + 2);
+    strcpy(conf_path, homedir);
+    strncat(conf_path, "\\", 2);
+    strncat(conf_path, "fed.cfg", 8);
+    return conf_path;
 }
 
 int append_to_config(const char *path)
 {
     FILE *pFile;
-    char *homepath = get_home_path();
-    char *conf_path = malloc(strlen(homepath) + 2);
-    strcpy(conf_path, homepath);
-    strncat(conf_path, "\\", 2);
-    strncat(conf_path, "fed.cfg", 8);
-
+    char *conf_path = get_cfg_path();
     pFile = fopen(conf_path, "a");
     if (pFile == NULL)
     {
@@ -44,11 +41,7 @@ int append_to_config(const char *path)
 
 int create_config()
 {
-    char *homepath = get_home_path();
-    char *conf_path = malloc(strlen(homepath) + 2);
-    strcpy(conf_path, homepath);
-    strncat(conf_path, "\\", 2);
-    strncat(conf_path, "fed.cfg", 8);
+    char *conf_path = get_cfg_path();
 
     if (_access(conf_path, 0))
     {

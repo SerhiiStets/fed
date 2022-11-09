@@ -7,20 +7,16 @@
 
 int cmd_ls(int argc, const char **argv)
 {
-    int limit;
-    FILE *filePointer;
     int i = 1;
+    int limit;
     int bufferLength = 255;
     char buffer[bufferLength]; /* not ISO 90 compatible */
+    FILE *filePointer;
 
     if (argc)
         limit = atoi(argv[0]);
 
-    char *homepath = get_home_path();
-    char *conf_path = malloc(strlen(homepath) + 2);
-    strcpy(conf_path, homepath);
-    strncat(conf_path, "\\", 2);
-    strncat(conf_path, "fed.cfg", 8);
+    char *conf_path = get_cfg_path();
     filePointer = fopen(conf_path, "r");
 
     fprintf(stdout, "%s: Favourite folders:\n\n", CLI_NAME);
@@ -35,6 +31,6 @@ int cmd_ls(int argc, const char **argv)
 
     fclose(filePointer);
     free(conf_path);
-
+    fprintf(stdout, "\nUse the number with %s <cd> command to cd into selected directory\n", CLI_NAME);
     return 1;
 }
