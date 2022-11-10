@@ -6,27 +6,6 @@
 #include "../definitions.h"
 #include "../utils.h"
 
-static int check_in_favourites(const char *path)
-{
-    FILE *filePointer;
-    int bufferLength = 255;
-    char buffer[bufferLength]; /* not ISO 90 compatible */
-
-    char *conf_path = get_cfg_path();
-    filePointer = fopen(conf_path, "r");
-
-    while (fgets(buffer, bufferLength, filePointer))
-    {
-        buffer[strlen(buffer) - 1] = '\0';
-        if (!strcmp(buffer, path))
-            return 1;
-    }
-
-    fclose(filePointer);
-    free(conf_path);
-    return 0;
-}
-
 int cmd_add(int argc, const char **argv)
 {
     int append_status;

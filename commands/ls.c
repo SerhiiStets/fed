@@ -8,7 +8,7 @@
 int cmd_ls(int argc, const char **argv)
 {
     int i = 1;
-    int limit;
+    int limit = 0;
     int bufferLength = 255;
     char buffer[bufferLength]; /* not ISO 90 compatible */
     FILE *filePointer;
@@ -28,9 +28,17 @@ int cmd_ls(int argc, const char **argv)
             break;
         i++;
     }
-
     fclose(filePointer);
     free(conf_path);
-    fprintf(stdout, "\nUse the number with %s <cd> command to cd into selected directory\n", CLI_NAME);
+
+    if (i == 1)
+    {
+        fprintf(stdout, "No favourite folders.\n\nUse %s <add> command to add folders.\n", CLI_NAME);
+    }
+    else
+    {
+        fprintf(stdout, "\nUse the number with %s <cd> command to cd into selected directory\n", CLI_NAME);
+    }
+
     return 1;
 }

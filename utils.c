@@ -39,6 +39,76 @@ int append_to_config(const char *path)
     return 1;
 }
 
+int remove_from_config(const char *path)
+{
+    FILE *pFile, *temp;
+    int in_favourites = 0;
+    int buffer_length = 255;
+    char buffer[buffer_length]; /* not ISO 90 compatible */
+
+    char *conf_path = get_cfg_path();
+    char *temp_path = malloc(strlen(conf_path) + 5);
+    strncpy(temp_path, conf_path, strlen(conf_path) + 2);
+    strncat(temp_path, ".tmp", 5);
+
+    pFile = fopen(conf_path, "r");
+    temp = fopen(temp_path, "w");
+    while (fgets(buffer, buffer_length, pFile))
+    {
+        char temp_buffer[strlen(buffer) + 2];
+        strncpy(temp_buffer, buffer, strlen(buffer) + 1);
+        buffer[strlen(buffer) - 1] = '\0';
+        if (strcmp(path, buffer))
+            fprintf(temp, temp_buffer);
+        else
+            in_favourites = 1;
+    }
+    fclose(temp);
+    fclose(pFile);
+
+    pFile = fopen(conf_path, "w");
+    temp = fopen(temp_path, "r");
+    while (fgets(buffer, buffer_length, temp))
+    {
+        fprintf(pFile, buffer);
+    }
+    fclose(temp);
+    fclose(pFile);
+
+    free(conf_path);
+    free(temp_path);
+
+    if (!in_favourites)
+    {
+        fprintf(stdout, "%s: The directory %s is not in favourites.\n", CLI_NAME, path);
+        return 0;
+    }
+
+    fprintf(stdout, "%s: The directory %s is deleted from favourites.\n", CLI_NAME, path);
+    return 1;
+}
+
+int check_in_favourites(const char *path)
+{
+    FILE *filePointer;
+    int bufferLength = 255;
+    char buffer[bufferLength]; /* not ISO 90 compatible */
+
+    char *conf_path = get_cfg_path();
+    filePointer = fopen(conf_path, "r");
+
+    while (fgets(buffer, bufferLength, filePointer))
+    {
+        buffer[strlen(buffer) - 1] = '\0';
+        if (!strcmp(buffer, path))
+            return 1;
+    }
+
+    fclose(filePointer);
+    free(conf_path);
+    return 0;
+}
+
 int create_config()
 {
     char *conf_path = get_cfg_path();
