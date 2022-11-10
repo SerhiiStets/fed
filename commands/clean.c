@@ -7,8 +7,6 @@
 
 int cmd_clean(int argc, const char **argv)
 {
-    int in_favourites;
-
     if (!argc)
     {
         fprintf(stderr, "%s %s", CLI_NAME, ": Need directory as an argument!\n\n");
@@ -25,6 +23,7 @@ int cmd_clean(int argc, const char **argv)
             pFile = fopen(conf_path, "w");
             fclose(pFile);
             free(conf_path);
+            fprintf(stdout, "%s: favourite folders are now empty.\n", CLI_NAME);
             return 1;
         }
 
@@ -35,6 +34,7 @@ int cmd_clean(int argc, const char **argv)
                 argv[0] = cwd;
         }
 
+        // TODO number list removal
         remove_from_config(argv[0]);
 
         argc--;

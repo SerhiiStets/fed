@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include "definitions.h"
 
@@ -14,9 +15,9 @@ char *get_cfg_path()
 {
     char *homedir;
     homedir = getenv(HOME_PATH);
-    char *conf_path = malloc(strlen(homedir) + 2);
+    char *conf_path = malloc(strlen(homedir) + 12);
     strcpy(conf_path, homedir);
-    strncat(conf_path, "\\", 2);
+    strncat(conf_path, "/", 2);
     strncat(conf_path, "fed.cfg", 8);
     return conf_path;
 }
@@ -59,7 +60,7 @@ int remove_from_config(const char *path)
         strncpy(temp_buffer, buffer, strlen(buffer) + 1);
         buffer[strlen(buffer) - 1] = '\0';
         if (strcmp(path, buffer))
-            fprintf(temp, temp_buffer);
+            fprintf(temp, "%s", temp_buffer);
         else
             in_favourites = 1;
     }
@@ -70,7 +71,7 @@ int remove_from_config(const char *path)
     temp = fopen(temp_path, "r");
     while (fgets(buffer, buffer_length, temp))
     {
-        fprintf(pFile, buffer);
+        fprintf(pFile, "%s", buffer);
     }
     fclose(temp);
     fclose(pFile);
@@ -113,7 +114,7 @@ int create_config()
 {
     char *conf_path = get_cfg_path();
 
-    if (_access(conf_path, 0))
+    if (access(conf_path, 0))
     {
         FILE *fp;
         fp = fopen(conf_path, "w");

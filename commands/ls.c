@@ -31,7 +31,7 @@ int cmd_ls(int argc, const char **argv)
     fclose(filePointer);
     free(conf_path);
 
-    if (i == 1)
+    if (limit == 0 && i == 1)
     {
         fprintf(stdout, "No favourite folders.\n\nUse %s <add> command to add folders.\n", CLI_NAME);
     }
