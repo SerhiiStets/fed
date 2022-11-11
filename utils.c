@@ -8,8 +8,6 @@
 #include <io.h>
 #include <windows.h>
 #endif
-#ifdef linux
-#endif
 
 char *get_cfg_path()
 {
@@ -76,6 +74,7 @@ int remove_from_config(const char *path)
     fclose(temp);
     fclose(pFile);
 
+    remove(temp_path);
     free(conf_path);
     free(temp_path);
 

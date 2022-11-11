@@ -12,11 +12,11 @@ $ fed -h
 $ fed --help
 ```
 
--   Add directories that you like or use "." to add the current directory to favourites.
+-   Add directories that you like or use '.' to add the current directory to favourites.
 
 ```
 $ fed add .
-$ fed add \home\
+$ fed add /home/
 $ fed add C: E: C:\home
 ```
 
@@ -25,4 +25,13 @@ $ fed add C: E: C:\home
 ```
 $ fed ls
 $ fed ls 2
+```
+
+-   Remove folder from favourties. Use 'all' for full cleanup and '.' to remove current folder.
+
+```
+$ fed clean all
+$ fed clean .
+$ fed clean E:
+$ fed clean /home/Desktop /home/fed
 ```
