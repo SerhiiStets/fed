@@ -5,12 +5,12 @@ int cmd_help(int argc, const char **argv)
 {
     fprintf(stdout, "\n%s usage:\n\n\
     add\t\t[. | <directory>] \t- add current or chosen dir to favourites.\n\
+    cd\t\t<number> \t\t- copy command to cd into favourite folder to clipboard.\n\
     ls\t\t<range> \t\t- show favoutite fodlers\n\
     clean\t[all | <folder>] \t- remove folders from favourites\n\
     help\t\t\t\t- display help\n\
     version\t\t\t\t- display cli version\n",
             CLI_NAME);
-    // TODO add cd
     return 0;
 }
 

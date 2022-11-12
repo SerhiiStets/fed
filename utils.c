@@ -20,6 +20,23 @@ char *get_cfg_path()
     return conf_path;
 }
 
+int add_to_clipboard(char *command)
+{
+    const size_t len = strlen(command) + 1;
+    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, len);
+    if (hMem)
+    {
+        memcpy(GlobalLock(hMem), command, len);
+        GlobalUnlock(hMem);
+        OpenClipboard(0);
+        EmptyClipboard();
+        SetClipboardData(CF_TEXT, hMem);
+        CloseClipboard();
+        return 1;
+    }
+    return 0;
+}
+
 int append_to_config(const char *path)
 {
     FILE *pFile;
@@ -88,6 +105,25 @@ int remove_from_config(const char *path)
     return 1;
 }
 
+int create_config()
+{
+    char *conf_path = get_cfg_path();
+
+    if (access(conf_path, 0))
+    {
+        FILE *fp;
+        fp = fopen(conf_path, "w");
+        if (!fp)
+        {
+            fprintf(stderr, "%s: Error opening config file.\n\n", CLI_NAME);
+            return 0;
+        }
+        fclose(fp);
+    }
+    free(conf_path);
+    return 1;
+}
+
 int check_in_favourites(const char *path)
 {
     FILE *filePointer;
@@ -107,23 +143,4 @@ int check_in_favourites(const char *path)
     fclose(filePointer);
     free(conf_path);
     return 0;
-}
-
-int create_config()
-{
-    char *conf_path = get_cfg_path();
-
-    if (access(conf_path, 0))
-    {
-        FILE *fp;
-        fp = fopen(conf_path, "w");
-        if (!fp)
-        {
-            fprintf(stderr, "%s: Error opening config file.\n\n", CLI_NAME);
-            return 0;
-        }
-        fclose(fp);
-    }
-    free(conf_path);
-    return 1;
 }
