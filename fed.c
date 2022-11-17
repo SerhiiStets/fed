@@ -13,14 +13,6 @@
 #include "definitions.h"
 #include "utils.h"
 
-static const char *const builtin_log_usage[] = {
-    /*
-    N_("git log [<options>] [<revision-range>] [[--] <path>...]"),
-    N_("git show [<options>] <object>..."),
-    NULL
-    */
-};
-
 struct cmd_struct
 {
     const char *cmd;               /* Command name */

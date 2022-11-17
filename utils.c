@@ -9,17 +9,33 @@
 #include <windows.h>
 #endif
 
+/**
+ * @brief Creating a full path to fed.cfg
+ *
+ * Using getenv() with defined HOME_PATH depending on OS,
+ * we have a Home dir and then append '/fed.cfg' for full path.
+ * TODO: check getenv return on errors
+ * TODO: possibly go without *conf_path but only with *homedir
+ * @return char* Full path to fed.cfg file
+ */
 char *get_cfg_path()
 {
     char *homedir;
     homedir = getenv(HOME_PATH);
     char *conf_path = malloc(strlen(homedir) + 12);
     strcpy(conf_path, homedir);
-    strncat(conf_path, "/", 2);
-    strncat(conf_path, "fed.cfg", 8);
+    strncat(conf_path, "/fed.cfg", 9);
     return conf_path;
 }
 
+/**
+ * @brief Appending generated fed <cd> command to the clipboard
+ *
+ * TODO: better error check
+ * TODO: Linux solution
+ * @param command fed Generated command for cd into favourite folder
+ * @return int Status of successfull completion
+ */
 int add_to_clipboard(char *command)
 {
     const size_t len = strlen(command) + 1;
@@ -37,6 +53,12 @@ int add_to_clipboard(char *command)
     return 0;
 }
 
+/**
+ * @brief Append given folder path to fed.cfg file in HOME dir
+ *
+ * @param path Folder path
+ * @return int Status of function success
+ */
 int append_to_config(const char *path)
 {
     FILE *pFile;
@@ -55,12 +77,17 @@ int append_to_config(const char *path)
     return 1;
 }
 
+/**
+ * @brief Remove given folder path from fed.cfg file in HOME dir
+ *
+ * TODO: better error check
+ * @param path Folder path
+ * @return int Status of function success
+ */
 int remove_from_config(const char *path)
 {
     FILE *pFile, *temp;
-    int in_favourites = 0;
-    int buffer_length = 255;
-    char buffer[buffer_length]; /* not ISO 90 compatible */
+    char buffer[MAX]; /* not ISO 90 compatible */
 
     char *conf_path = get_cfg_path();
     char *temp_path = malloc(strlen(conf_path) + 5);
@@ -69,22 +96,20 @@ int remove_from_config(const char *path)
 
     pFile = fopen(conf_path, "r");
     temp = fopen(temp_path, "w");
-    while (fgets(buffer, buffer_length, pFile))
+    while (fgets(buffer, MAX, pFile))
     {
         char temp_buffer[strlen(buffer) + 2];
         strncpy(temp_buffer, buffer, strlen(buffer) + 1);
         buffer[strlen(buffer) - 1] = '\0';
         if (strcmp(path, buffer))
             fprintf(temp, "%s", temp_buffer);
-        else
-            in_favourites = 1;
     }
     fclose(temp);
     fclose(pFile);
 
     pFile = fopen(conf_path, "w");
     temp = fopen(temp_path, "r");
-    while (fgets(buffer, buffer_length, temp))
+    while (fgets(buffer, MAX, temp))
     {
         fprintf(pFile, "%s", buffer);
     }
@@ -94,17 +119,15 @@ int remove_from_config(const char *path)
     remove(temp_path);
     free(conf_path);
     free(temp_path);
-
-    if (!in_favourites)
-    {
-        fprintf(stdout, "%s: The directory %s is not in favourites.\n", CLI_NAME, path);
-        return 0;
-    }
-
-    fprintf(stdout, "%s: The directory %s is deleted from favourites.\n", CLI_NAME, path);
     return 1;
 }
 
+/**
+ * @brief Create a fed.cfg config file in HOME dir
+ *
+ * fed.cfg will hold all information for user's favourite folders
+ * @return int Status of function success
+ */
 int create_config()
 {
     char *conf_path = get_cfg_path();
@@ -124,23 +147,29 @@ int create_config()
     return 1;
 }
 
+/**
+ * @brief Checks for given folder path in fed.cfg file in HOME dir
+ *
+ * TODO: better error check
+ * @param path Folder path
+ * @return int Status of function success
+ */
 int check_in_favourites(const char *path)
 {
-    FILE *filePointer;
-    int bufferLength = 255;
-    char buffer[bufferLength]; /* not ISO 90 compatible */
+    FILE *pFile;
+    char buffer[MAX]; /* not ISO 90 compatible */
 
     char *conf_path = get_cfg_path();
-    filePointer = fopen(conf_path, "r");
+    pFile = fopen(conf_path, "r");
 
-    while (fgets(buffer, bufferLength, filePointer))
+    while (fgets(buffer, MAX, pFile))
     {
         buffer[strlen(buffer) - 1] = '\0';
         if (!strcmp(buffer, path))
             return 1;
     }
 
-    fclose(filePointer);
+    fclose(pFile);
     free(conf_path);
     return 0;
 }

@@ -18,16 +18,15 @@ int cmd_cd(int argc, const char **argv)
         return 1;
     }
 
-    FILE *filePointer;
+    FILE *pFile;
     int i = 1;
     int status = 0;
-    int buffer_length = 255;
-    char buffer[buffer_length]; /* not ISO 90 compatible */
+    char buffer[MAX]; /* not ISO 90 compatible */
     int is_in_favourites = 0;
 
     char *conf_path = get_cfg_path();
-    filePointer = fopen(conf_path, "r");
-    while (fgets(buffer, buffer_length, filePointer))
+    pFile = fopen(conf_path, "r");
+    while (fgets(buffer, MAX, pFile))
     {
         buffer[strlen(buffer) - 1] = '\0';
         if (i == atoi(argv[0]))
@@ -38,7 +37,7 @@ int cmd_cd(int argc, const char **argv)
         i++;
     }
 
-    fclose(filePointer);
+    fclose(pFile);
     free(conf_path);
 
     if (is_in_favourites)
