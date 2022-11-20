@@ -59,7 +59,7 @@ int add_to_clipboard(char *command)
  * @param path Folder path
  * @return int Status of function success
  */
-int append_to_config(const char *path)
+int append_to_config(const char *path, int is_alias)
 {
     FILE *pFile;
     char *conf_path = get_cfg_path();
@@ -170,6 +170,34 @@ int check_in_favourites(const char *path)
     }
 
     fclose(pFile);
+    free(conf_path);
+    return 0;
+}
+
+/**
+ * @brief Checks if alias already exists for fav folder
+ *
+ * @param alias Alias name
+ * @return int Status of if alias exists or not
+ */
+int check_alias_exists(const char *alias)
+{
+    FILE *pFile;
+    char buffer[MAX]; /* not ISO 90 compatible */
+    char temp[MAX];
+    char *token;
+    char *conf_path = get_cfg_path();
+    const char delim[3] = "[]";
+
+    pFile = fopen(conf_path, "r");
+    while (fgets(buffer, MAX, pFile))
+    {
+        buffer[strlen(buffer) - 1] = '\0';
+        strcpy(temp, buffer);
+        token = strtok(temp, delim);
+        if (!strcmp(alias, token))
+            return 1;
+    }
     free(conf_path);
     return 0;
 }

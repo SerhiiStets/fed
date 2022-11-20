@@ -10,6 +10,16 @@
 #include "../utils.h"
 #include "../definitions.h"
 
+/**
+ * @brief Adds given folders to favourites
+ * Adding can be done just by folder name or
+ * given with alias with -a flag for better
+ * interaction with other functions
+ *
+ * @param argc Number of arguments passed
+ * @param argv Arguments
+ * @return int Status of function success
+ */
 int cmd_cd(int argc, const char **argv)
 {
     if (!argc)
@@ -19,19 +29,42 @@ int cmd_cd(int argc, const char **argv)
     }
 
     FILE *pFile;
+    Named_dir alias_dir;
     int i = 1;
     int status = 0;
-    char buffer[MAX]; /* not ISO 90 compatible */
     int is_in_favourites = 0;
-
+    char buffer[MAX]; /* not ISO 90 compatible */
     char *conf_path = get_cfg_path();
+    const char delim[3] = "[]";
+    char *token;
+    char temp[MAX];
+
     pFile = fopen(conf_path, "r");
     while (fgets(buffer, MAX, pFile))
     {
         buffer[strlen(buffer) - 1] = '\0';
+        strcpy(temp, buffer);
         if (i == atoi(argv[0]))
         {
+            token = strtok(temp, delim);
+            alias_dir.alias = token;
+            token = strtok(NULL, delim);
+            alias_dir.directory = token;
+            if (alias_dir.directory)
+                strcpy(buffer, alias_dir.directory + 1);
             is_in_favourites = 1;
+            break;
+        }
+
+        token = strtok(temp, delim);
+        alias_dir.alias = token;
+        token = strtok(NULL, delim);
+        alias_dir.directory = token;
+
+        if (!strcmp(alias_dir.alias, argv[0]))
+        {
+            is_in_favourites = 1;
+            strcpy(buffer, alias_dir.directory + 1);
             break;
         }
         i++;

@@ -28,6 +28,9 @@ int cmd_clean(int argc, const char **argv)
         int is_in_favourites = 0;
         char buffer[MAX];
         char *conf_path = get_cfg_path();
+        const char delim[3] = "[]";
+        char *token;
+        Named_dir alias_dir;
 
         /* If "all" as an argument, delete all folders in favourites */
         if (!strcmp(argv[0], "all"))
@@ -51,11 +54,31 @@ int cmd_clean(int argc, const char **argv)
         pFile = fopen(conf_path, "r");
         while (fgets(buffer, MAX, pFile))
         {
+
             buffer[strlen(buffer) - 1] = '\0';
-            if (i == atoi(argv[0]) || !strncmp(argv[0], buffer, strlen(buffer) + 1))
+            if (i == atoi(argv[0]) || !strcmp(argv[0], buffer))
             {
                 is_in_favourites = 1;
                 break;
+            }
+
+            char temp[MAX];
+            strncpy(temp, buffer, strlen(buffer) + 1);
+            token = strtok(temp, delim);
+            alias_dir.alias = token;
+            token = strtok(NULL, delim);
+            alias_dir.directory = token;
+            /**If there's an alias folder then directory will be NULL
+             * as strtok would not find [] delimeters and only split once
+             * return second NULL
+             */
+            if (alias_dir.directory)
+            {
+                if (!strcmp(argv[0], alias_dir.alias))
+                {
+                    is_in_favourites = 1;
+                    break;
+                }
             }
             i++;
         }
