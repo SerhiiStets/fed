@@ -4,9 +4,12 @@ _**fed**_ is a command line tool for saving and accessing your favourite folders
 
 ## **Usage**
 
+There are two options to work with folders: via list numbers and aliases.
+
 ### **add**
 
 Add directories that you like or use '.' to add the current directory to your favourites.
+Use **-a [alias] [directory]** to add a folder with an alias to access it later.
 
 ```shell
 $ fed add .
@@ -14,6 +17,9 @@ $ fed add .
 
 $ fed add /home/
     fed: /home/ is already in favourites.
+
+$ fed add -a python_projects E:\Python
+    E:\Python directory is added to favourites.
 
 $ fed add C: E: C:\Users
     fed: C: is already in favourites.
@@ -24,6 +30,7 @@ $ fed add C: E: C:\Users
 ### **ls**
 
 List all your favourite directories or the number you like.
+Alises are showned in [] braces.
 
 ```shell
 $ fed ls
@@ -32,7 +39,7 @@ $ fed ls
     1. C:
     2. E:\Scripts\fed
     3. E:
-    4. C:\Users
+    4. [python_projects] E:\Python
 
     Use the number with fed <cd> command to cd into the selected directory
 
@@ -47,7 +54,7 @@ $ fed ls 2
 
 ### **cd**
 
-Since it is impossible to move from the directory the program was run at, fed copies the commands to the user's clipboard. That way, using Ctrl + V a user can then navigate to the favourite folder without typing the whole root. Use the number in the list of favourite folders for quick access to 'cd' command.
+Since it is impossible to move from the directory the program was run at, fed copies the commands to the user's clipboard. That way, using Ctrl + V a user can then navigate to the favourite folder without typing the whole root. Use the number in the list of favourite folders or folder alias for quick access to 'cd' command.
 
 -   For Windows, moving between drives requires additional command like 'C: ' before cd
 
@@ -67,11 +74,20 @@ $ fed cd 1
     Use Ctr+V to get the command.
 
 $ C: && cd C:\Users
+
+$ fed cd python_projects
+    fed: E:\Desktop is your directory.
+
+    The command <E: && cd E:\Python> is copied to your clipboard.
+    Use Ctr+V to get the command.
+
+$ E: && cd E:\Python
 ```
 
 ### **clean**
 
 Remove folder from favourities. Use 'all' for full cleanup and '.' to remove the current folder.
+Folder can also be cleaned up by the number it is on the list or using given folder alias.
 
 ```shell
 $ fed clean all
@@ -83,6 +99,12 @@ $ fed clean .
 $ fed clean /home/Desktop /home/fed
     fed: The directory /home/Desktop is deleted from favourites.
     fed: The directory /home/fed is not in favourites.
+
+$ fed clean 1
+    fed: The directory C: is deleted from favourites.
+
+$ fed clean python_projects
+    fed: The directory [python_projects] E:\Desktop is deleted from favourites.
 ```
 
 ### **help**

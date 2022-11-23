@@ -4,12 +4,22 @@
 int cmd_help(int argc, const char **argv)
 {
     fprintf(stdout, "\n%s usage:\n\n\
-    add\t\t[. | <directory>] \t- add current or chosen dir to favourites.\n\
-    cd\t\t<number> \t\t- copy command to cd into favourite folder to clipboard.\n\
-    ls\t\t<range> \t\t- show favoutite fodlers\n\
-    clean\t[all | <folder>] \t- remove folders from favourites\n\
-    help\t\t\t\t- display help\n\
-    version\t\t\t\t- display cli version\n",
+    '.' - dot symbol can be used in commands to represent current directory.\n\n\
+    add\n\
+    \t\t<directory>\t\t\tadds current or chosen directory to favourites.\n\
+    \t\t-a <alias> <directory>\t\tadds directory with given alias to favourites.\n\n\
+    cd\n\
+    \t\t<number>\tcopies command to cd into folder to clipboard given by folder number in <ls>.\n\
+    \t\t<alias>\t\tcopies command to cd into folder to clipboad given by folder alias.\n\
+    ls\n\
+    \t\t<range> \tshows favoutite fodlers.\n\n\
+    clean\n\
+    \t\tall\t\tremoves all folders from favourites.\n\
+    \t\t<alias>\t\tremoves folder from favourite by given alias.\n\
+    \t\t<number>\tremoves fodler given by number in ls list.\n\
+    \t\t<directory>\tremoves folder from favourites.\n\n\
+    help\t\t\tdisplay help.\n\n\
+    version\t\t\tdisplay cli version.\n",
             CLI_NAME);
     return 0;
 }
