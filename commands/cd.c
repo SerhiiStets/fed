@@ -101,21 +101,22 @@ int cmd_cd(int argc, const char **argv)
         cd_command[1] = '\0';
         strncat(cd_command, and_cmd, strlen(and_cmd) + 1);
         strncat(cd_command, buffer, strlen(buffer) + 1);
-#endif
-#ifdef linux
-        /* TODO: Linux clipboard if possible */
-        char *cd_command = malloc(strlen(buffer) + 1 + 4);
-        strncpy(cd_command, "cd ", 4);
-#endif
+
         /* Adding genereted command to the clipboard */
         status = add_to_clipboard(cd_command);
-
         if (status)
             fprintf(stdout, "The command <%s> is copied to your clipboard.\
                 \nUse Ctr+V to get the command.\n\n",
                     cd_command);
         else
             fprintf(stdout, "%s: There was an error with adding %s command to clipboard.\n\n", CLI_NAME, cd_command);
+#endif
+#ifdef linux
+        /* TODO: Linux clipboard if possible */
+        char *cd_command = malloc(strlen(buffer) + 1 + 4);
+        strncpy(cd_command, "cd ", 4);
+        fprintf(stdout, "%s\n\n", cd_command);
+#endif
 
         free(cd_command);
         return 1;
