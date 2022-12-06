@@ -30,7 +30,7 @@ $ fed add C: E: C:\Users
 ### **ls**
 
 List all your favourite directories or the number you like.
-Alises are showned in [] braces.
+Aliases are shown in [] braces.
 
 ```shell
 $ fed ls
@@ -86,8 +86,8 @@ $ E: && cd E:\Python
 
 ### **clean**
 
-Remove folder from favourities. Use 'all' for full cleanup and '.' to remove the current folder.
-Folder can also be cleaned up by the number it is on the list or using given folder alias.
+Removes the folder from favourites. Use 'all' for full cleanup and '.' to remove the current folder.
+The folder can also be cleaned up by the number it is on the list or using the given folder alias.
 
 ```shell
 $ fed clean all
@@ -109,7 +109,7 @@ $ fed clean python_projects
 
 ### **open**
 
-Opens given folder in explorer. Can take either alias or number in favourite list.
+Opens given folder in explorer. Can take either alias or a number in the favourites list.
 
 ```shell
 $ fed open nvim 
