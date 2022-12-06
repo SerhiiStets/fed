@@ -18,6 +18,9 @@ int cmd_help(int argc, const char **argv)
     \t\t<alias>\t\tremoves folder from favourite by given alias.\n\
     \t\t<number>\tremoves fodler given by number in ls list.\n\
     \t\t<directory>\tremoves folder from favourites.\n\n\
+    open\n\
+    \t\t<alias>\t\topens folder in explorer from favourite by given alias.\n\
+    \t\t<number>\topens fodler in explorer given by number in ls list.\n\n\
     help\t\t\tdisplay help.\n\n\
     version\t\t\tdisplay cli version.\n",
             CLI_NAME);

@@ -10,6 +10,7 @@
 #include "commands/ls.h"
 #include "commands/clean.h"
 #include "commands/cd.h"
+#include "commands/open.h"
 #include "definitions.h"
 #include "utils.h"
 
@@ -25,6 +26,7 @@ static struct cmd_struct commands[] = {
     {"ls", cmd_ls},
     {"cd", cmd_cd},
     {"clean", cmd_clean},
+    {"open", cmd_open},
     {"version", cmd_version},
     {"help", cmd_help},
 };

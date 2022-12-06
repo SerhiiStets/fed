@@ -19,7 +19,7 @@ endif
 CFLAGS = -Wall -g
 
 # define the C source files
-SRCS = fed.c utils.c commands/add.c commands/help.c commands/ls.c commands/clean.c commands/cd.c
+SRCS = fed.c utils.c commands/add.c commands/help.c commands/ls.c commands/clean.c commands/cd.c commands/open.c
 
 # define the C object files 
 #

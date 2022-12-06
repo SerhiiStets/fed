@@ -107,6 +107,18 @@ $ fed clean python_projects
     fed: The directory [python_projects] E:\Desktop is deleted from favourites.
 ```
 
+### **open**
+
+Opens given folder in explorer. Can take either alias or number in favourite list.
+
+```shell
+$ fed open nvim 
+    fed: openning C:\Users\admin\AppData\Local\nvim directory.
+
+$ fed open 1
+    fed: openning C: directory.
+```
+
 ### **help**
 
 Receive info for all available commands.
