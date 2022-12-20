@@ -99,8 +99,8 @@ int cmd_cd(int argc, const char **argv)
         char *cd_command = malloc(strlen(buffer) + 1 + sizeof(drive) + strlen(and_cmd) + 1);
         cd_command[0] = drive;
         cd_command[1] = '\0';
-        strncat(cd_command, and_cmd, strlen(and_cmd) + 1);
-        strncat(cd_command, buffer, strlen(buffer) + 1);
+
+        sprintf(cd_command, "%s: && cd %s", cd_command, buffer);
 
         /* Adding genereted command to the clipboard */
         status = add_to_clipboard(cd_command);
@@ -114,7 +114,7 @@ int cmd_cd(int argc, const char **argv)
 #ifdef linux
         /* TODO: Linux clipboard if possible */
         char *cd_command = malloc(strlen(buffer) + 1 + 4);
-        strncpy(cd_command, "cd ", 4);
+        sprintf(cd_command, "cd %s", buffer);
         fprintf(stdout, "%s\n\n", cd_command);
 #endif
 

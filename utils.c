@@ -23,8 +23,7 @@ char *get_cfg_path()
     char *homedir;
     homedir = getenv(HOME_PATH);
     char *conf_path = malloc(strlen(homedir) + 12);
-    strcpy(conf_path, homedir);
-    strncat(conf_path, "/fed.cfg", 9);
+    sprintf(conf_path, "%s/fed.cfg", homedir);
     return conf_path;
 }
 
@@ -91,8 +90,7 @@ int remove_from_config(const char *path)
 
     char *conf_path = get_cfg_path();
     char *temp_path = malloc(strlen(conf_path) + 5);
-    strncpy(temp_path, conf_path, strlen(conf_path) + 2);
-    strncat(temp_path, ".tmp", 5);
+    sprintf(temp_path, "%s.tmp", conf_path);
 
     pFile = fopen(conf_path, "r");
     temp = fopen(temp_path, "w");
