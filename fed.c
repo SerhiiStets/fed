@@ -11,6 +11,7 @@
 #include "commands/clean.h"
 #include "commands/cd.h"
 #include "commands/open.h"
+#include "commands/rename.h"
 #include "definitions.h"
 #include "utils.h"
 
@@ -27,6 +28,7 @@ static struct cmd_struct commands[] = {
     {"cd", cmd_cd},
     {"clean", cmd_clean},
     {"open", cmd_open},
+    {"rename", cmd_rename},
     {"version", cmd_version},
     {"help", cmd_help},
 };

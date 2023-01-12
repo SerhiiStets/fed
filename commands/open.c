@@ -16,12 +16,14 @@ int cmd_open(int argc, const char **argv)
 {
     FILE *pFile;
     Named_dir alias_dir;
+
     int i = 1;
     int is_in_favourites = 0;
+
     char buffer[MAX]; /* not ISO 90 compatible */
     char temp[MAX];
-    char delim[3] = "[]";
     char *token;
+    char delim[3] = "[]";
 
     if (!argc)
     {
@@ -80,9 +82,7 @@ int cmd_open(int argc, const char **argv)
     if (is_in_favourites)
     {
         char open_explr_cmd[MAX];
-        strncpy(open_explr_cmd, "start \"\" \"", 11);
-        strncat(open_explr_cmd, buffer, strlen(buffer) + 1);
-        strncat(open_explr_cmd, "\"", 2);
+        sprintf(open_explr_cmd, "start \"\" \"%s\"", buffer);
         fprintf(stdout, "%s: openning %s directory.\n\n", CLI_NAME, buffer);
         system(open_explr_cmd);
         return 1;

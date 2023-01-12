@@ -79,10 +79,8 @@ int add_alias_dir(int argc, const char **argv)
         int alias_len = strlen(alias_dir.alias) + 1;
         int directory_len = strlen(alias_dir.directory) + 1;
         char *alias_string = malloc(2 + alias_len + 3 + directory_len);
-        strncpy(alias_string, "[", 2);
-        strncat(alias_string, alias_dir.alias, alias_len);
-        strncat(alias_string, "] ", 4);
-        strncat(alias_string, alias_dir.directory, directory_len);
+
+        sprintf(alias_string, "[%s] %s", alias_dir.alias, alias_dir.directory);
 
         append_status = append_to_config(alias_string);
         free(alias_string);
