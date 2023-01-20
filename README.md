@@ -119,6 +119,18 @@ $ fed open 1
     fed: openning C: directory.
 ```
 
+### **rename**
+
+Renames aliases for favourite directories.
+```shell
+$ fed rename fed fed_project
+    fed: The directory    E:\Programming\fed alias is changed
+    fed -> fed_project
+
+$ fed rename git github
+    fed: The directory git is not in favourites.
+```
+
 ### **help**
 
 Receive info for all available commands.

@@ -8,6 +8,8 @@ int cmd_help(int argc, const char **argv)
     add\n\
     \t\t<directory>\t\t\tadds current or chosen directory to favourites.\n\
     \t\t-a <alias> <directory>\t\tadds directory with given alias to favourites.\n\n\
+    rename\n\
+    \t\t<old alias> <new alias>\t\trenames directory with alias to a new alias.\n\n\
     cd\n\
     \t\t<number>\tcopies command to cd into folder to clipboard given by folder number in <ls>.\n\
     \t\t<alias>\t\tcopies command to cd into folder to clipboad given by folder alias.\n\
